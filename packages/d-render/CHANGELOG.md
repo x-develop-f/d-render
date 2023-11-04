@@ -1,5 +1,11 @@
 # d-render
 
+## 2.1.15-beta.11
+
+### Patch Changes
+
+- fix(cip-search-form): 修复搜索表单使用 cip-form-item 时传入的 grid 的值不正确的问题
+
 ## 2.1.15-beta.10
 
 ### Patch Changes
