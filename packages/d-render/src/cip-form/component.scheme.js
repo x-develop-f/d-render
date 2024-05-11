@@ -41,6 +41,9 @@ export const propsScheme = {
   },
   options: {
     type: Object
+  },
+  genNo: {
+    type: Function
   }
 }
 export const eventsScheme = {
@@ -49,12 +52,12 @@ export const eventsScheme = {
   }
 }
 export const slotsScheme = {
-  'default': `{}`
+  default: '{}'
 }
 
 export const componentScheme = {
   propsScheme,
   eventsScheme,
   slotsScheme,
-  name: "CipForm"
+  name: 'CipForm'
 }

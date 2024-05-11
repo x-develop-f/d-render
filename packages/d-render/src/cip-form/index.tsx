@@ -57,7 +57,8 @@ export default defineComponent({
     dataBus: Function as PropType<(key: string, val: unknown) => void>,
     border: { type: Boolean, default: undefined }, // showOnly + border 将出现边框
     // 回车触发回调
-    enterHandler: Function
+    enterHandler: Function,
+    genNo: Function
   },
   emits: ['update:model', 'submit', 'cancel'],
   slots: Object as SlotsType<{
@@ -203,12 +204,18 @@ export default defineComponent({
     }
     // 渲染表单
     const getFormDefaultSlots = () => {
+      // 在这里计算no
+      const count = 0
+      const list = fieldList.value?.map(v => {
+        if (props.genNo) v.config.no = props.genNo(v, count)
+        return v
+      })
       if (formProps.value.useDirectory) {
-        return fieldList.value?.map((v) => getFormDefaultSlot(v)).concat(
+        return list?.map((v) => getFormDefaultSlot(v)).concat(
           [h(CipFormDirectory, { directory: directoryConfig.value })]
         )
       } else {
-        return fieldList.value?.map((v) => getFormDefaultSlot(v))
+        return list?.map((v) => getFormDefaultSlot(v))
       }
     }
 

@@ -156,6 +156,9 @@ export default defineComponent({
         )
         result.push(descriptionComp)
       }
+      if (formItemConfig.value.no) {
+        result.unshift(formItemConfig.value.no)
+      }
       // 仅在正在使用rules的input中且required为true时展示必填标记
       if (usingRules.value && formItemConfig.value.required) {
         const requiredAsterisk = (<span class={'cip-danger-color'}>*</span>)
@@ -198,6 +201,13 @@ export default defineComponent({
     const isLabelPositionTop = computed(() => {
       return labelPosition.value === 'top'
     })
+
+    const itemType = computed(() => {
+      return props.isDesign
+        ? props.drawType || formItemConfig.value.type || 'default'
+        : formItemConfig.value.type || 'default'
+    })
+
     const renderItemInput = () => {
       if (props.customSlots) {
         return props.customSlots({
@@ -237,9 +247,7 @@ export default defineComponent({
       if (formItemConfig.value.$render) {
         return formItemConfig.value.$render(componentProps)
       }
-      const type = props.isDesign
-        ? props.drawType || formItemConfig.value.type || 'default'
-        : formItemConfig.value.type || 'default'
+      const type = itemType.value
       if (status.value === 'read-write') {
         const inputComponentProps = {
           ...componentProps,
@@ -274,6 +282,7 @@ export default defineComponent({
       return h(ElFormItem, {
         class: [
           `label-pos--${labelPosition.value}`,
+          `dr-item-${itemType.value}`,
           {
             'pos-top': isLabelPositionTop.value,
             // 'pos-top--padding': labelPositionTopPadding, 暂时关闭position === top时内容的缩进
