@@ -14,7 +14,7 @@ interface IComponentConfig {
 type TComponentConfig = IComponentConfig | TComponentConfigSimple
 type TComponentsConfig = Record<string, TComponentConfig>
 type TDRenderComponentConfig = Record<string, TComponentConfigSimple>
-interface IDRenderConfig {
+export interface IDRenderConfig {
   components: TComponentsConfig
   plugins: TComponentsConfig[]
 }
