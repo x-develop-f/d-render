@@ -1,4 +1,4 @@
-import { configMapToList } from '@cip/utils/config-util'
+import { configMapToList } from '@d-render/shared'
 export const formConfigFieldConfigMap = {
   hideIndex: {
     type: 'switch',

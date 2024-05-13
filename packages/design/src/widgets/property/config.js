@@ -1,5 +1,5 @@
-import { configMapToList } from '@cip/utils/config-util'
-import { DRender } from '@d-render/shared'
+import { configMapToList } from '@d-render/shared'
+import { DRender } from 'd-render'
 export const formConfigFieldConfigMap = {
   labelPosition: {
     type: 'radio',
