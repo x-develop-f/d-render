@@ -1,5 +1,11 @@
 # @d-render/shared
 
+## 2.0.0
+
+### Major Changes
+
+- feat: 升级 element-plus 的版本
+
 ## 1.3.1
 
 ### Patch Changes

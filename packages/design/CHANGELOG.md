@@ -1,5 +1,17 @@
 # @d-render/design
 
+## 2.0.0
+
+### Major Changes
+
+- feat: 升级 element-plus 的版本
+
+### Patch Changes
+
+- Updated dependencies
+  - d-render@3.0.0
+  - @d-render/shared@2.0.0
+
 ## 1.1.7
 
 ### Patch Changes
