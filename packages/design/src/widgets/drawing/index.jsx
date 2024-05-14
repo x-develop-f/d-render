@@ -1,9 +1,10 @@
-import { h, watch, ref, provide, computed } from 'vue'
+import { h, watch, ref, provide, computed, inject } from 'vue'
 import VueDraggable from 'vuedraggable'
 import { isNotEmpty, useNamespace } from '@d-render/shared'
 import { useFieldDrawing, useList } from './use-field-drawing'
 import FormDrawingContent from './widgets/content'
 import DeviceContainer from '@/widgets/device-container'
+import { DR_DESIGN_KEY } from '@/constant'
 
 export default {
   props: {
@@ -12,10 +13,12 @@ export default {
     selectId: [Number, String],
     deviceType: {},
     Component: {},
-    handleIconComponent: {}
+    handleIconComponent: {},
+    drawProps: {}
   },
   emits: ['updateList', 'select'],
   setup (props, context) {
+    const drDesign = inject(DR_DESIGN_KEY, {})
     const ns = useNamespace('design-drawing')
     const { list, updateList } = useList({ props, emit: context.emit })
     const { selectItem, deleteItem, copyItem } = useFieldDrawing({
@@ -61,6 +64,7 @@ export default {
       const formContentProps = {
         selectId: props.selectId,
         grid: grid.value,
+        class: element.config?.class,
         element,
         index,
         formLabelPosition: props.data.formLabelPosition,
@@ -88,8 +92,10 @@ export default {
         return props.data.grid ?? 1
       }
     })
-    console.log('C', props.Component)
-    // class={'cip-fd-form-drawing-container'}
+    const judgePut = (to, from, item) => {
+      if (drDesign.putStrategy?.global) return drDesign.putStrategy?.global(item ?? {})
+      return true
+    }
     return () => (
       <div class={[ns.e('container')]}>
         {list.value.length === 0 && (
@@ -111,16 +117,17 @@ export default {
                   modelValue={list.value}
                   onUpdate:modelValue={(val) => updateList(val)}
                   itemKey={'id'}
-                  group={'components'}
+                  group={{ name: 'components', put: judgePut }}
                   handle={'.move-icon'}
                   ghostClass={'ghost'}
                   animation={200}
                   componentData={{
-                    class: ns.be('content', 'wrapper'),
+                    class: [ns.be('content', 'wrapper')],
                     style: isNotEmpty(grid.value)
                       ? `display: grid;column-gap: 12px; grid-template-columns: repeat(${grid.value},1fr); align-content: start;`
                       : ''
                   }}
+                  move={props.drawProps?.move}
                   onAdd={({ newIndex }) => addItem({ newIndex })}
                 >
                   {{

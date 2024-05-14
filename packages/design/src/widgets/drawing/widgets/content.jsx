@@ -46,7 +46,7 @@ export default defineComponent({
     const ns = useNamespace('design-draw-content')
     // 获取渲染所需要的组件
     const getFormContentComponent = (type) => {
-      return defineAsyncComponent(() => import(`./${type}`))
+      return defineAsyncComponent(() => import(`./${type}/index.js`))
     }
     const drDesign = inject(DR_DESIGN_KEY, {})
     const getComponentType = (element) => {
@@ -88,10 +88,14 @@ export default defineComponent({
         return 1
       }
     })
+    const itemStyle = computed(() => {
+      return props.element.config.itemStyle ?? {}
+    })
     return () => <div
       {...props}
       {...attrs}
       class={[
+        attrs.class,
         ns.b(),
         ns.e(type.value),
         formContentProps.value.config.class,
@@ -105,7 +109,7 @@ export default defineComponent({
       ]}
       onMouseenter={() => { entryElement(props.element.id) }}
       onMouseleave={() => { leaveElement(props.element.id) }}
-      style={{ gridColumn: `span ${span.value || 1}` }}
+      style={{ gridColumn: `span ${span.value || 1}`, ...itemStyle.value }}
     >
       {props.selectId === props.element.id && <span class="right-top item-field-key"> {itemFieldKey.value}</span>}
       <ElIcon size={22} class={'show-focus handle-icon move-icon'}>
@@ -113,12 +117,10 @@ export default defineComponent({
       </ElIcon>
       {/* <i class={'el-icon-rank show-focus handle-icon move-icon'} /> */}
       <div class="right-bottom show-focus handle-icon">
-        { props.Component && props.Component.map(icon => <icon.Component onClick={(e) => {
-            e.stopPropagation()
-            icon?.callback(props.element, e)
-            }
-          }/>)
-        }
+        { props.Component && props.Component.map(icon => <icon.Component config={props.element} onClick={(e) => {
+          e.stopPropagation()
+          icon?.callback(props.element, e)
+        }}/>)}
         {formContentProps.value.showCopy && <ElIcon
           onClick={(e) => {
             e.stopPropagation()
