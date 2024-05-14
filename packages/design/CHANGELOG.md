@@ -1,5 +1,14 @@
 # @d-render/design
 
+## 1.1.7
+
+### Patch Changes
+
+- polish: 优化引入，导出需要导出的类型定义
+- Updated dependencies
+  - d-render@2.1.21
+  - @d-render/shared@1.3.1
+
 ## 1.1.6
 
 ### Patch Changes

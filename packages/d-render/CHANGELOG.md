@@ -1,11 +1,19 @@
 # d-render
 
+## 2.1.21
+
+### Patch Changes
+
+- polish: 优化引入，导出需要导出的类型定义
+- Updated dependencies
+  - @d-render/shared@1.3.1
+
 ## 2.1.20
 
 ### Patch Changes
 
-- fix(form): 修复当表单设置为labelWidth且labelPosition为top时form-item的labelWidth依然被限制的问题
-- fix(form-item): 修复labelPosition为top时label行右侧存在12px的内边距的问题
+- fix(form): 修复当表单设置为 labelWidth 且 labelPosition 为 top 时 form-item 的 labelWidth 依然被限制的问题
+- fix(form-item): 修复 labelPosition 为 top 时 label 行右侧存在 12px 的内边距的问题
 
 ## 2.1.19
 

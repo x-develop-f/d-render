@@ -1,5 +1,11 @@
 # @d-render/shared
 
+## 1.3.1
+
+### Patch Changes
+
+- polish: 优化引入，导出需要导出的类型定义
+
 ## 1.3.0
 
 ### Minor Changes
