@@ -1,5 +1,5 @@
 import DeviceContainer from '@/widgets/device-container'
-import { computed, ref, watch, reactive, provide } from 'vue'
+import { computed, ref, watch, reactive, provide, toRef } from 'vue'
 import { useNamespace } from '@d-render/shared'
 import { CipButton } from '@xdp/button'
 import { View } from '@element-plus/icons-vue'
@@ -23,6 +23,7 @@ export default {
     equipment: {},
     equipmentSwitch: { type: Boolean, default: true },
     drawTypeMap: {},
+    drawProps: {},
     defaultModule: {},
     defaultConfigure: {},
     putStrategy: {},
@@ -79,15 +80,16 @@ export default {
       }
     }, { immediate: true })
     const isPreview = ref(false)
+    const testModel = ref()
     const togglePreview = () => {
+      testModel.value = {}
       isPreview.value = !isPreview.value
     }
-    const testModel = ref()
     const breadcrumb = computed(() => depthFirstSearchTree(
       props.schema?.list || [], selectItemId.value, 'id', props.drawTypeMap) || [])
     const drDesign = reactive({
       drawTypeMap: props.drawTypeMap, // 渲染组件转换对象
-      schema: props.schema, // 渲染配置
+      schema: toRef(props, 'schema'), // 渲染配置  props.schema
       putStrategy: props.putStrategy, // 拖入配置
       path: breadcrumb // 当前组件路径
     })
@@ -143,6 +145,7 @@ export default {
             equipment={props.equipment}
             data={props.schema}
             selectId={selectItemId.value}
+            drawProps={props.drawProps}
             onSelect={(item) => changeSelect(item)}
             onUpdateList={(list) => { updateList(list) }}
           />
@@ -159,6 +162,7 @@ export default {
               const { config, Component } = conf
               return config.name === currentTab.value && <Component
                 key={config.name}
+                config={config}
                 schema={props.schema}
                 onUpdate:schema={updateSchema}
                 v-model:selectItem={selectItem.value}
@@ -171,6 +175,7 @@ export default {
            {props.equipment === 'pc' &&
              <div class={ns.e('preview')} style={{ }}>
                <preview.Component
+                 key={'pc'}
                  v-model:model={testModel.value}
                  schema={props.schema}
                  equipment={props.equipment}
@@ -180,6 +185,7 @@ export default {
            {/* 预览组件需要使用 iframe */}
            { props.equipment === 'mobile' && <IframeContainer >
              <preview.Component
+               key={'mobile'}
                v-model:model={testModel.value}
                schema={props.schema}
                equipment={props.equipment}
