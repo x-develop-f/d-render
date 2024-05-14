@@ -9,15 +9,15 @@ import type { IAnyObject } from './util'
 import { cloneDeep, getFieldValue, isArray } from './util'
 import type { FormItemRule } from 'element-plus'
 // eslint-disable-next-line no-use-before-define
-type TChangeConfig = (config: IRenderConfig, values: IAnyObject, outValues: IAnyObject)=> IRenderConfig
+export type TChangeConfig = (config: IRenderConfig, values: IAnyObject, outValues: IAnyObject)=> IRenderConfig
 
-type TChangeValue = (values: IAnyObject, outValues: IAnyObject) => { value: IAnyObject, otherValue: IAnyObject } | void
-type TChangeValueByOld = (
+export type TChangeValue = (values: IAnyObject, outValues: IAnyObject) => { value: IAnyObject, otherValue: IAnyObject } | void
+export type TChangeValueByOld = (
   { key, oldValue }:{key:string, oldValue: unknown},
   values: IAnyObject, outValues: IAnyObject
 ) => { value: unknown, otherValue: unknown } | void
 
-type TInsert = {before: string, after?: string} | { before?: string, after: string }
+export type TInsert = {before: string, after?: string} | { before?: string, after: string }
 
 export interface IRenderConfigDependOnEffect {
   changeValue: boolean | TChangeValue
@@ -115,7 +115,7 @@ export interface IRenderConfig{
   $render?: Slot<IAnyObject>
   [propname: string]: unknown
 }
-interface ITableRenderProps {
+export interface ITableRenderProps {
   // eslint-disable-next-line no-use-before-define
   config: ITableRenderConfig | IRenderConfig
   fieldKey: string
@@ -152,7 +152,7 @@ export interface ITableRenderConfig {
   selectable?: (params: {row: IAnyObject; index: number}) => boolean
 }
 
-interface IBaseFormRenderConfig{
+export interface IBaseFormRenderConfig{
   /**
    * 当前表单项占用的栅格数
    */
@@ -161,7 +161,7 @@ interface IBaseFormRenderConfig{
   labelStyle?: IAnyObject,
   itemStyle?: IAnyObject
 }
-interface IFormRenderConfig{
+export interface IFormRenderConfig{
   /**
    * 当前表单项是否必填
    */
