@@ -4,6 +4,7 @@ import { ElIcon } from 'element-plus'
 import { isLayoutType } from 'd-render'
 import { useNamespace } from '@d-render/shared'
 import { DR_DESIGN_KEY } from '@/constant'
+import { useConfigProvide } from '@/hooks/use-config-provide'
 // import './content.less'
 export default defineComponent({
   props: {
@@ -44,6 +45,8 @@ export default defineComponent({
   },
   setup (props, { attrs }) {
     const ns = useNamespace('design-draw-content')
+    const configProvide = useConfigProvide()
+    console.log('configProvide', configProvide)
     // 获取渲染所需要的组件
     const getFormContentComponent = (type) => {
       return defineAsyncComponent(() => import(`./${type}/index.js`))
@@ -113,28 +116,35 @@ export default defineComponent({
     >
       {props.selectId === props.element.id && <span class="right-top item-field-key"> {itemFieldKey.value}</span>}
       <ElIcon size={22} class={'show-focus handle-icon move-icon'}>
-        <Rank/>
+        { configProvide.moveIcon ? <configProvide.moveIcon /> : <Rank/> }
       </ElIcon>
       {/* <i class={'el-icon-rank show-focus handle-icon move-icon'} /> */}
       <div class="right-bottom show-focus handle-icon">
-        { props.Component && props.Component.map(icon => <icon.Component config={props.element} onClick={(e) => {
-          e.stopPropagation()
-          icon?.callback(props.element, e)
-        }}/>)}
-        {formContentProps.value.showCopy && <ElIcon
-          onClick={(e) => {
+        { configProvide.RightHandle
+          ? <>
+            <configProvide.RightHandle fieldConfig={props.element} formContentProps={formContentProps.value} />
+          </>
+          : <>
+          { props.Component && props.Component.map(icon => <icon.Component fieldConfig={props.element} onClick={(e) => {
             e.stopPropagation()
-            formContentProps.value.onCopy(e)
-          }}>
-          <DocumentCopy />
-        </ElIcon> }
-        <ElIcon
-          onClick={(e) => {
-            e.stopPropagation()
-            formContentProps.value.onDelete(e)
-          }}>
-          <Delete />
-        </ElIcon>
+            icon?.callback(props.element, e)
+          }}/>)}
+          {formContentProps.value.showCopy && <ElIcon
+            onClick={(e) => {
+              e.stopPropagation()
+              formContentProps.value.onCopy(e)
+            }}>
+            <DocumentCopy />
+          </ElIcon> }
+          <ElIcon
+            onClick={(e) => {
+              e.stopPropagation()
+              formContentProps.value.onDelete(e)
+            }}>
+            <Delete />
+          </ElIcon>
+        </> }
+
       </div>
       <FormContent.value { ...formContentProps.value }/>
     </div>

@@ -5,6 +5,7 @@ export const useSelect = () => {
     return selectItem.value?.id
   })
   const changeSelect = (fieldConfig) => {
+    console.log('[dr-design]changeSelect', fieldConfig)
     selectItem.value = fieldConfig
   }
   const updateSelectItem = (val, withHook) => {

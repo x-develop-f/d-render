@@ -6,6 +6,7 @@ export const usePlugins = (plugins) => {
   const icon = []
   let draw = { Component: {} }
   let preview = { Component: h('div') }
+  let layout = { Component: h('div') }
   plugins.forEach(plugin => {
     const { type } = plugin
     switch (type) {
@@ -24,6 +25,8 @@ export const usePlugins = (plugins) => {
       case PLUGIN_ENUM.MODULE:
         modules.push(plugin)
         break
+      case PLUGIN_ENUM.LAYOUT:
+        layout = plugin
     }
   })
   return {

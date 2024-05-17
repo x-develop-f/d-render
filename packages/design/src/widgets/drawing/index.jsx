@@ -80,7 +80,7 @@ export default {
       return h(FormDrawingContent, { ...formContentProps })
     }
     // 默认选中第一个
-    watch(() => props.selectId, (val) => {
+    watch([() => props.selectId, () => list.value], ([val]) => {
       if (!val && list.value.length > 0) {
         selectItem(list.value[0])
       }
