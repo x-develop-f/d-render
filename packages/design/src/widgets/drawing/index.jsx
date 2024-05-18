@@ -21,16 +21,13 @@ export default {
     const drDesign = inject(DR_DESIGN_KEY, {})
     const ns = useNamespace('design-drawing')
     const { list, updateList } = useList({ props, emit: context.emit })
-    const { selectItem, deleteItem, copyItem } = useFieldDrawing({
+    const { selectItem, deleteItem, copyItem, addItem } = useFieldDrawing({
       list,
       updateList,
       emit: context.emit
     })
 
-    const addItem = ({ newIndex }) => {
-      const newItem = list.value[newIndex]
-      context.emit('select', newItem)
-    }
+
     const updateConfig = (element, val) => {
       const cloneList = props.data?.list || []
       element.config = val
