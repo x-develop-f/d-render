@@ -48,8 +48,13 @@ export default defineComponent({
     const configProvide = useConfigProvide()
     console.log('configProvide', configProvide)
     // 获取渲染所需要的组件
+    // [Compatible]: 兼容
     const getFormContentComponent = (type) => {
-      return defineAsyncComponent(() => import(`./${type}/index.js`))
+      if (type === 'item') {
+        return defineAsyncComponent(() => import('./item/index.js'))
+      }
+      return defineAsyncComponent(() => import('./layout/index.js'))
+      // return defineAsyncComponent(() => import(`./${type}/index.js`))
     }
     const drDesign = inject(DR_DESIGN_KEY, {})
     const getComponentType = (element) => {
