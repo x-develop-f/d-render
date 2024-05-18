@@ -104,8 +104,10 @@ export default {
         title: () => slots.title?.(),
         equipment: () => <EquipmentRadio modelValue={props.equipment} onUpdate:modelValue={updateEquipment}/>,
         handle: () => <>
-          {props.withPreview && !isPreview.value && <>
+          {!isPreview.value && <>
             {slots.preHandle?.()}
+          </> }
+          {props.withPreview && !isPreview.value && <>
             <CipButton type={'primary'} icon={View} onClick={() => { togglePreview() }}>{props.previewText}</CipButton>
             {slots.handle?.()}
           </>}
