@@ -15,9 +15,10 @@ export const useList = ({ props, emit }) => {
 export const useFieldDrawing = ({ list, updateList, emit }) => {
   const drConfig = useConfigProvide()
   const addItem = async ({ newIndex }) => {
-    const newItem = list.value[newIndex]
+    let newItem = list.value[newIndex]
     if (drConfig.beforeCreate) {
-      await drConfig.beforeCreate({ item: newItem, index: newIndex, itemList: list.value })
+      // 受接口返回的数据控制
+      newItem = await drConfig.beforeCreate({ item: newItem, index: newIndex, itemList: list.value }) ?? newItem
     }
     emit('select', newItem)
   }
@@ -39,9 +40,10 @@ export const useFieldDrawing = ({ list, updateList, emit }) => {
   const copyItem = async (index) => {
     const itemList = list.value
 
-    const newItem = getCopyRow(itemList[index])
+    let newItem = getCopyRow(itemList[index])
     if (drConfig.beforeCreate) {
-      await drConfig.beforeCreate({ item: newItem, index, itemList })
+      // 受接口返回的数据控制
+      newItem = await drConfig.beforeCreate({ item: newItem, index, itemList }) ?? newItem
     }
     itemList.splice(index + 1, 0, newItem)
     updateList(itemList, 'copy')
