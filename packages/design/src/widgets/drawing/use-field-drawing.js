@@ -1,6 +1,6 @@
 import { computed } from 'vue'
 // import { getCopyRow } from '../../util'
-import { getNextItem, getCopyRow } from '@d-render/shared'
+import { getNextItem, getCopyRow, cloneDeep } from '@d-render/shared'
 import { useConfigProvide } from '@/hooks/use-config-provide'
 export const useList = ({ props, emit }) => {
   const list = computed(() => {
@@ -14,11 +14,15 @@ export const useList = ({ props, emit }) => {
 
 export const useFieldDrawing = ({ list, updateList, emit }) => {
   const drConfig = useConfigProvide()
+
   const addItem = async ({ newIndex }) => {
+    const itemList = list.value
     let newItem = list.value[newIndex]
     if (drConfig.beforeCreate) {
       // 受接口返回的数据控制
-      newItem = await drConfig.beforeCreate({ item: newItem, index: newIndex, itemList: list.value }) ?? newItem
+      newItem = await drConfig.beforeCreate({ item: newItem, index: newIndex, itemList })
+      itemList.splice(newIndex, 1, newItem)
+      updateList(itemList)
     }
     emit('select', newItem)
   }
@@ -37,13 +41,13 @@ export const useFieldDrawing = ({ list, updateList, emit }) => {
 
     updateList(itemList)
   }
-  const copyItem = async (index) => {
+  const copyItem = async (index, rewriteItem) => {
     const itemList = list.value
-
-    let newItem = getCopyRow(itemList[index])
+    const item = Object.assign({}, cloneDeep(itemList[index]), rewriteItem)
+    let newItem = getCopyRow(item)
     if (drConfig.beforeCreate) {
       // 受接口返回的数据控制
-      newItem = await drConfig.beforeCreate({ item: newItem, index, itemList }) ?? newItem
+      newItem = await drConfig.beforeCreate({ item: newItem, index, itemList })
     }
     itemList.splice(index + 1, 0, newItem)
     updateList(itemList, 'copy')

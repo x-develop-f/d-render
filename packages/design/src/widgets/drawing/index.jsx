@@ -27,7 +27,6 @@ export default {
       emit: context.emit
     })
 
-
     const updateConfig = (element, val) => {
       const cloneList = props.data?.list || []
       element.config = val
@@ -71,7 +70,7 @@ export default {
         },
         onClick: () => { selectItem(element) },
         onDelete: () => { deleteItem(index); leaveElement(element.id) },
-        onCopy: () => copyItem(index),
+        onCopy: (rewriteItem) => copyItem(index, rewriteItem),
         onSelectItem: (element) => selectItem(element)
       }
       return h(FormDrawingContent, { ...formContentProps })
