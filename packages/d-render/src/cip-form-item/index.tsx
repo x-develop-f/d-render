@@ -282,7 +282,6 @@ export default defineComponent({
       return h(ElFormItem, {
         class: [
           `label-pos--${labelPosition.value}`,
-          `dr-item-${itemType.value}`,
           {
             'pos-top': isLabelPositionTop.value,
             // 'pos-top--padding': labelPositionTopPadding, 暂时关闭position === top时内容的缩进
@@ -323,6 +322,7 @@ export default defineComponent({
             'el-form-item__wrapper',
             'ep-form-item__wrapper', // 支持namespace ep
             `cip-form-item--${equipment.value}`,
+            `dr-item-${itemType.value}`,
             {
               'cip-form-item--label-position-top': isLabelPositionTop.value,
               'cip-form-item--hidden': !childStatus.value || formItemConfig.value.hideItem,
