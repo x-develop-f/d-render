@@ -70,7 +70,7 @@ export default {
         },
         onClick: () => { selectItem(element) },
         onDelete: () => { deleteItem(index); leaveElement(element.id) },
-        onCopy: (rewriteItem) => copyItem(index, rewriteItem),
+        onCopy: (e, rewriteItem) => copyItem(index, rewriteItem),
         onSelectItem: (element) => selectItem(element)
       }
       return h(FormDrawingContent, { ...formContentProps })
