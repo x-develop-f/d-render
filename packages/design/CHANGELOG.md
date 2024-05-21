@@ -1,5 +1,13 @@
 # @d-render/design
 
+## 2.0.7
+
+### Patch Changes
+
+- 扩展 d-render，item 上添加相关类型的样式，扩展 design 内置的复制方法
+- Updated dependencies
+  - d-render@3.0.1
+
 ## 2.0.0
 
 ### Major Changes
