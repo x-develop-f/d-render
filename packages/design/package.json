@@ -1,6 +1,6 @@
 {
   "name": "@d-render/design",
-  "version": "2.0.7",
+  "version": "2.0.8",
   "description": "d-render中cip-form-render、cip-table-render渲染器schema的设计器",
   "sideEffects": [
     "dist/*"
@@ -22,7 +22,7 @@
     "vuedraggable": "^4.1.0"
   },
   "peerDependencies": {
-    "@d-render/shared": "workspace:>=2.0.0",
+    "@d-render/shared": "workspace:>=2.0.1",
     "@element-plus/icons-vue": "^2.1.0",
     "@xdp/button": "^1.1.2",
     "d-render": "workspace:3.0.1",

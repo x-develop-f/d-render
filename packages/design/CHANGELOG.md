@@ -1,5 +1,15 @@
 # @d-render/design
 
+## 2.0.8
+
+### Patch Changes
+
+- feat(design): 设计器 preHandle、handle 插槽新增 selectItem 属性下发
+  fix(design): 修复 copyRow 判断是否 layout 时实际渲染为 item,设计渲染为 layout 的组件无法正确 copy 的问题
+  fix(shared): 修复 copyRow 判断是否 layout 时实际渲染为 item,设计渲染为 layout 的组件无法正确 copy 的问题
+- Updated dependencies
+  - @d-render/shared@2.0.1
+
 ## 2.0.7
 
 ### Patch Changes
