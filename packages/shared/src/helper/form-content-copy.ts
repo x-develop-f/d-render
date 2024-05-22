@@ -36,31 +36,33 @@ export const getCopyItem = (item: IFormConfig<Record<string, unknown>>) => {
   return result
 }
 // layout 类型的复制方式
-export const getCopyLayout = (layout: IFormConfig<Record<string, unknown>>) => {
+export const getCopyLayout = (layout: IFormConfig<Record<string, unknown>>, typeMap: Record<string, string>) => {
   const newLayout = getCopyItem(layout); // 修改自身标记
   (newLayout.config.options as Array<{children: IFormConfig<Record<string, unknown>>[]}>)?.forEach?.((option) => {
     // 修改子row标记
     const children = option.children || []
     if (children.length > 0) {
-      option.children = children.map(getCopyRow)
+      option.children = children.map((child) => getCopyRow(child, typeMap))
     }
   })
   return newLayout
 }
 // table 的复制方式
-export const getCopyTable = (table: IFormConfig<Record<string, unknown>>) => {
+export const getCopyTable = (table: IFormConfig<Record<string, unknown>>, typeMap: Record<string, string> = {}) => {
   const newTable = getCopyItem(table) // 修改自身标记
   const options = (newTable.config?.options || []) as Array<IFormConfig<Record<string, unknown>>>
   if (options?.length > 0) {
-    newTable.config.options = options.map(getCopyRow)
+    newTable.config.options = options.map((option) => getCopyRow(option, typeMap))
   }
   return newTable
 }
 // 复制一列
-export const getCopyRow = (row: IFormConfig<Record<string, unknown>>) => {
+export const getCopyRow = (row: IFormConfig<Record<string, unknown>>, typeMap: Record<string, string> = {}) => {
   const type = row.config?.type
+    ? typeMap[row.config?.type] ?? row.config?.type
+    : 'default'
   if (dRender.isLayoutType(type!)) {
-    return getCopyLayout(row)
+    return getCopyLayout(row, typeMap)
   } else {
     return getCopyItem(row)
   }
