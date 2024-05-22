@@ -1,7 +1,8 @@
-import { computed } from 'vue'
+import { computed, inject } from 'vue'
 // import { getCopyRow } from '../../util'
 import { getNextItem, getCopyRow, cloneDeep } from '@d-render/shared'
 import { useConfigProvide } from '@/hooks/use-config-provide'
+import { DR_DESIGN_KEY } from '@/constant'
 export const useList = ({ props, emit }) => {
   const list = computed(() => {
     return props.data?.list || []
@@ -14,7 +15,7 @@ export const useList = ({ props, emit }) => {
 
 export const useFieldDrawing = ({ list, updateList, emit }) => {
   const drConfig = useConfigProvide()
-
+  const drDesign = inject(DR_DESIGN_KEY, {})
   const addItem = async ({ newIndex }) => {
     const itemList = list.value
     let newItem = list.value[newIndex]
@@ -44,7 +45,7 @@ export const useFieldDrawing = ({ list, updateList, emit }) => {
   const copyItem = async (index, rewriteItem) => {
     const itemList = list.value
     const item = Object.assign({}, cloneDeep(itemList[index]), rewriteItem)
-    let newItem = getCopyRow(item)
+    let newItem = getCopyRow(item, drDesign.drawTypeMap)
     if (drConfig.beforeCreate) {
       // 受接口返回的数据控制
       newItem = await drConfig.beforeCreate({ item: newItem, index, itemList })

@@ -5,6 +5,7 @@ import { useFieldDrawing, useList } from './use-field-drawing'
 import FormDrawingContent from './widgets/content'
 import DeviceContainer from '@/widgets/device-container'
 import { DR_DESIGN_KEY } from '@/constant'
+import { useConfigProvide } from '@/hooks/use-config-provide'
 
 export default {
   props: {
@@ -19,6 +20,7 @@ export default {
   emits: ['updateList', 'select'],
   setup (props, context) {
     const drDesign = inject(DR_DESIGN_KEY, {})
+    const drConfig = useConfigProvide()
     const ns = useNamespace('design-drawing')
     const { list, updateList } = useList({ props, emit: context.emit })
     const { selectItem, deleteItem, copyItem, addItem } = useFieldDrawing({
@@ -26,10 +28,14 @@ export default {
       updateList,
       emit: context.emit
     })
-
-    const updateConfig = (element, val) => {
+    const updateConfig = async (element, val, index) => {
       const cloneList = props.data?.list || []
       element.config = val
+      if (drConfig.beforeUpdate) {
+        const newEl = await drConfig.beforeUpdate({ item: element, index, itemList: cloneList })
+        // 合并进入原始对象，保持地址引用
+        Object.assign(element, newEl)
+      }
       updateList(cloneList, 'layoutUpdate')
     }
     // TODO: 此处需要处理layout删除时的数据
@@ -66,7 +72,7 @@ export default {
         formLabelPosition: props.data.formLabelPosition,
         Component: props.handleIconComponent,
         onUpdateConfig: (val) => {
-          updateConfig(element, val)
+          updateConfig(element, val, index)
         },
         onClick: () => { selectItem(element) },
         onDelete: () => { deleteItem(index); leaveElement(element.id) },
