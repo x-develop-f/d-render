@@ -105,11 +105,11 @@ export default {
         equipment: () => <EquipmentRadio modelValue={props.equipment} onUpdate:modelValue={updateEquipment}/>,
         handle: () => <>
           {!isPreview.value && <>
-            {slots.preHandle?.()}
+            {slots.preHandle?.({ selectItem: selectItem.value })}
           </> }
           {props.withPreview && !isPreview.value && <>
             <CipButton type={'primary'} icon={View} onClick={() => { togglePreview() }}>{props.previewText}</CipButton>
-            {slots.handle?.()}
+            {slots.handle?.({ selectItem: selectItem.value })}
           </>}
           {
             isPreview.value && <CipButton type={'primary'} onClick={() => { togglePreview() }}>{props.editText}</CipButton>
