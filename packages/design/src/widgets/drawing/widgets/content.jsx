@@ -43,7 +43,9 @@ export default defineComponent({
     grid: Number,
     Component: {}
   },
-  setup (props, { attrs }) {
+  inheritAttrs: false,
+  emit: ['click'],
+  setup (props, { attrs, emit }) {
     const ns = useNamespace('design-draw-content')
     const configProvide = useConfigProvide()
     console.log('configProvide', configProvide)
@@ -100,7 +102,6 @@ export default defineComponent({
       return props.element.config.itemStyle ?? {}
     })
     return () => <div
-      {...props}
       {...attrs}
       class={[
         attrs.class,
@@ -117,6 +118,7 @@ export default defineComponent({
       ]}
       onMouseenter={() => { entryElement(props.element.id) }}
       onMouseleave={() => { leaveElement(props.element.id) }}
+      onClick={(e) => emit('click', e)}
       style={{ gridColumn: `span ${span.value || 1}`, ...itemStyle.value }}
     >
       {props.selectId === props.element.id && <span class="right-top item-field-key"> {itemFieldKey.value}</span>}
@@ -149,7 +151,6 @@ export default defineComponent({
             <Delete />
           </ElIcon>
         </> }
-
       </div>
       <FormContent.value { ...formContentProps.value }/>
     </div>
