@@ -17,6 +17,7 @@ export default {
       <>
         <div class={[ns.e('mask')]}/>
         <CipFormItem
+          class={attrs.class}
           {...attrs}
           model={model.value}
           style={{

@@ -71,7 +71,7 @@ export default defineComponent({
       isActive: props.selectId === props.element.id,
       fieldKey: props.element.key,
       selectId: props.selectId,
-      config: { ...(props.element?.config ?? {}), hideItem: false }, // 劫持 hideItem 强制修改为false //将背景色修改为红色
+      config: { ...(props.element?.config ?? {}), hideItem: false, writable: true }, // 劫持 hideItem 强制修改为false //将背景色修改为红色
       showCopy: props.showCopy,
       'onUpdate:config': props.onUpdateConfig,
       onClick: props.onClick,
@@ -111,7 +111,7 @@ export default defineComponent({
           [ns.is('hover')]: currentHoverId.value === props.element.id,
           [ns.is('active')]: formContentProps.value.isActive,
           // 'is-active': formContentProps.value.isActive,
-          [ns.m('hidden')]: props.element.config?.hideItem
+          [ns.m('hidden')]: props.element.config?.hideItem || props.element.config?.readable === false
           // 'form-drawing--hidden': props.element.config?.hideItem
         }
       ]}
