@@ -1,6 +1,6 @@
 {
   "name": "@d-render/design",
-  "version": "2.0.9",
+  "version": "2.0.10",
   "description": "d-render中cip-form-render、cip-table-render渲染器schema的设计器",
   "sideEffects": [
     "dist/*"

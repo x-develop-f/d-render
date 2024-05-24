@@ -1,5 +1,12 @@
 # @d-render/design
 
+## 2.0.10
+
+### Patch Changes
+
+- fix(design): 修复遮盖会放出 checkbox 的问题
+  perf(design): 优化拖动节点上的属性
+
 ## 2.0.9
 
 ### Patch Changes
