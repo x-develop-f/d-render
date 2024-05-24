@@ -1,5 +1,11 @@
 # @d-render/design
 
+## 2.0.9
+
+### Patch Changes
+
+- fix(design): 修复 readable 为 false 的项无法在设计器配置的问题
+
 ## 2.0.8
 
 ### Patch Changes
