@@ -28,14 +28,9 @@ export default {
       updateList,
       emit: context.emit
     })
-    const updateConfig = async (element, val, index) => {
+    const updateConfig = (element, val, index) => {
       const cloneList = props.data?.list || []
       element.config = val
-      if (drConfig.beforeUpdate) {
-        const newEl = await drConfig.beforeUpdate({ item: element, index, itemList: cloneList })
-        // 合并进入原始对象，保持地址引用
-        Object.assign(element, newEl)
-      }
       updateList(cloneList, 'layoutUpdate')
     }
     // TODO: 此处需要处理layout删除时的数据
