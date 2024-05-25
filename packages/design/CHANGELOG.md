@@ -1,5 +1,11 @@
 # @d-render/design
 
+## 2.0.11
+
+### Patch Changes
+
+- fix(design): 修复设计器拖动操作被 mask 遮住的问题
+
 ## 2.0.10
 
 ### Patch Changes
