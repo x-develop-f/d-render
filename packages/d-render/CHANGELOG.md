@@ -1,5 +1,11 @@
 # d-render
 
+## 3.0.2
+
+### Patch Changes
+
+- fix(cip-table): 修复组件无法正常传出单选的问题
+
 ## 3.0.1
 
 ### Patch Changes
