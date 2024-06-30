@@ -42,7 +42,7 @@ export default defineComponent({
   name: 'CipTable',
   inheritAttrs: false,
   props: tableProps,
-  emits: ['sort', 'update:data', 'update:selectColumns', 'mainFieldClick'],
+  emits: ['sort', 'update:data', 'update:selectColumns', 'mainFieldClick', 'update:selectRadio'],
   setup (props, context) {
     const cipConfig = useCipConfig()
     const cipPageConfig = useCipPageConfig()
@@ -287,6 +287,7 @@ export default defineComponent({
           default: ({ row }: ITableRow) => h(ElRadio, {
             label: ((props.selectLabel && row[props.selectLabel]) ?? row.id) as string | number,
             modelValue: props.selectRadio,
+            'onUpdate:modelValue': (val) => context.emit('update:selectRadio', val),
             disabled: props.selectable && !props.selectable(row)
           }, { default: () => '' })
         })
