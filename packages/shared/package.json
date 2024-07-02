@@ -44,6 +44,7 @@
   },
   "devDependencies": {
     "@types/uuid": "8.3.x",
+    "@types/lodash-es": "^4.17.9",
     "element-plus": "^2.6.0",
     "dayjs": "^1.11.9",
     "lodash-es": "4.17.x",
@@ -55,6 +56,6 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "@types/lodash-es": "^4.17.9"
+
   }
 }
