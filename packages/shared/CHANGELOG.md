@@ -1,5 +1,11 @@
 # @d-render/shared
 
+## 2.0.2
+
+### Patch Changes
+
+- chore(package.json): 优化依赖库的位置
+
 ## 2.0.1
 
 ### Patch Changes
