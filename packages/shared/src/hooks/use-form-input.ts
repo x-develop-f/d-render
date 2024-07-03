@@ -256,27 +256,6 @@ export const useOptions = (
   })
   const options = ref([] as unknown[])
   let unwatch: WatchStopHandle|null = null
-  const getOptions = async (val?: IAnyObject, outVal?: IAnyObject) => {
-    if (props.config.asyncOptions) {
-      const asyncFunc = judgeUseFn('asyncOptions', props.config) as (val?: IAnyObject, outVal?: IAnyObject) => Promise<unknown[]>
-      options.value = await asyncFunc(val, outVal)
-    } else {
-      options.value = (props.config?.options as unknown[]) ?? []
-    }
-    if (unwatch) unwatch() // 获取一次options后重新开启监听
-    unwatch = watch(() => props.changeCount, () => {
-      if (isEmpty(props.modelValue) && props.config.autoSelect && updateStream) { // modelValue为空
-        const autoValue = isObjectOption.value ? (options.value as IAnyObject[])![0][optionProps.value.value] : options.value[0]
-        const autoLabel = isObjectOption.value ? (options.value as IAnyObject[])![0][optionProps.value.label] : options.value[0]
-        // eslint-disable-next-line no-unused-expressions
-        // emitInput(autoValue)
-        // emitOtherValue && emitOtherValue(autoLabel)
-        updateStream.appendValue(autoValue)
-        updateStream.appendOtherValue(autoLabel)
-        updateStream.end()
-      }
-    }, { immediate: true })
-  }
   // 计算option类型
   const isObjectOption = computed(() => {
     return isObject(options.value[0])
@@ -335,20 +314,6 @@ export const useOptions = (
       return modelValue
     }
   }
-  if (autoGet) {
-    if (!(props.config.dependOn?.length) && !(props.config.outDependOn?.length)) {
-      getOptions() // .then(() => { console.log('[init]: getOptions') })
-      if (props.config.options) { // 动态表单设计时修改options需要触发此方法
-        watch(() => props.config.options, () => {
-          getOptions() // .then(() => { console.log('[config.options change]: getOptions') })
-        })
-      }
-    } else {
-      watch([() => props.dependOnValues, () => props.outDependOnValues], ([dependOnValues, outDependOnValues]) => {
-        getOptions(dependOnValues || {}, outDependOnValues || {}) // .then(() => { console.log('[dependOn change]: getOptions') })
-      }, { immediate: true })
-    }
-  }
 
   // options部分组件重新定义proxyOptionsValue
   const proxyOptionsValue = computed({
@@ -378,10 +343,10 @@ export const useOptions = (
           }
           if (isTree) {
             if (!unref(multiple)) {
-              const path = getPathByValue(options.value, value, optionProps.value)
+              const path = getPathByValue(options.value as IAnyObject[], value, optionProps.value)
               updateStream.appendOtherValue(path, 3)
             } else {
-              const paths = (value as unknown[]).map(val => getPathByValue(options.value, val, optionProps.value))
+              const paths = (value as unknown[]).map(val => getPathByValue(options.value as IAnyObject[], val, optionProps.value))
               updateStream.appendOtherValue(paths, 3)
             }
           }
@@ -392,6 +357,41 @@ export const useOptions = (
       }
     }
   })
+  const getOptions = async (val?: IAnyObject, outVal?: IAnyObject) => {
+    if (props.config.asyncOptions) {
+      const asyncFunc = judgeUseFn('asyncOptions', props.config) as (val?: IAnyObject, outVal?: IAnyObject) => Promise<unknown[]>
+      options.value = await asyncFunc(val, outVal)
+    } else {
+      options.value = (props.config?.options as unknown[]) ?? []
+    }
+    if (unwatch) unwatch() // 获取一次options后重新开启监听
+    unwatch = watch(() => props.changeCount, () => {
+      if (isEmpty(props.modelValue) && props.config.autoSelect && updateStream) { // modelValue为空
+        const result = (isObjectOption.value ? getFieldValue(options.value[0], optionProps.value.value) : options.value[0]) as string
+        if (unref(multiple)) {
+          proxyOptionsValue.value = [result]
+        } else {
+          proxyOptionsValue.value = result
+        }
+      }
+    }, { immediate: true })
+  }
+
+  if (autoGet) {
+    if (!(props.config.dependOn?.length) && !(props.config.outDependOn?.length)) {
+      getOptions() // .then(() => { console.log('[init]: getOptions') })
+      if (props.config.options) { // 动态表单设计时修改options需要触发此方法
+        watch(() => props.config.options, () => {
+          getOptions() // .then(() => { console.log('[config.options change]: getOptions') })
+        })
+      }
+    } else {
+      watch([() => props.dependOnValues, () => props.outDependOnValues], ([dependOnValues, outDependOnValues]) => {
+        getOptions(dependOnValues || {}, outDependOnValues || {}) // .then(() => { console.log('[dependOn change]: getOptions') })
+      }, { immediate: true })
+    }
+  }
+
   return {
     optionProps,
     options,
