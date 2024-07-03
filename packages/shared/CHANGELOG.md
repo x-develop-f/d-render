@@ -1,5 +1,11 @@
 # @d-render/shared
 
+## 2.0.3
+
+### Patch Changes
+
+- fix(use-form-input): 修复`useOptions`的 autoSelect 功能
+
 ## 2.0.2
 
 ### Patch Changes
