@@ -63,6 +63,10 @@ export const getRulesByFieldConfig = (config: IRenderConfig, otherValue: unknown
       rules.push(otherRules)
     }
   }
+  if (typeof config.customRequiredRule === 'function') {
+    const CRR = config.customRequiredRule(config, otherValue, dependOnValues, outDependOnValues)
+    rules.push(CRR)
+  }
   // 提取公共函数
   const pushValidatorFunction = (validator: TValidator, type?: string) => {
     const message = config.validateValueErrorMessage as string

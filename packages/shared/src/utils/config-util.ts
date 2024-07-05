@@ -112,7 +112,7 @@ export interface IRenderConfig{
   inputStyle?: CSSProperties
   itemStyle?: CSSProperties
   style?: CSSProperties
-  $render?: Slot<IAnyObject>
+  __render?: Slot<IAnyObject>
   [propname: string]: unknown
 }
 export interface ITableRenderProps {
@@ -166,6 +166,7 @@ export interface IFormRenderConfig{
    * 当前表单项是否必填
    */
   required?: boolean // form 特供
+  customRequiredRule?: (config: IRenderConfig, otherValue: IAnyObject, dependOnValues: IAnyObject, outDependOnValues: IAnyObject) => FormItemRule
   requiredErrorMessage?: string
   triggerType?: 'input' // 文字提示 请输入 ｜ 请选择
   requiredType?: 'blur'|'change'
