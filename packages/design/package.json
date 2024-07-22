@@ -25,7 +25,7 @@
     "@d-render/shared": "workspace:>=2.0.1",
     "@element-plus/icons-vue": "^2.1.0",
     "@xdp/button": "^1.1.2",
-    "d-render": "workspace:3.0.1",
+    "d-render": "workspace:>=3.0.1",
     "element-plus": "^2.6.0",
     "uuid": "^8.3.x",
     "vue": "^3.3.2",
