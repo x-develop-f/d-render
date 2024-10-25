@@ -18,7 +18,7 @@
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",
     "@xdp/button": "^1.2.1",
-    "element-plus": "^2.6.3",
+    "element-plus": "2.2.22",
     "vuedraggable": "^4.1.0"
   },
   "peerDependencies": {
@@ -26,9 +26,9 @@
     "@element-plus/icons-vue": "^2.1.0",
     "@xdp/button": "^1.1.2",
     "d-render": "workspace:3.0.1",
-    "element-plus": "^2.6.0",
+    "element-plus": "2.2.22",
     "uuid": "^8.3.x",
-    "vue": "^3.3.2",
+    "vue": "^3.4.34",
     "vuedraggable": "^4.1.0"
   },
   "keywords": [],
