@@ -1,5 +1,5 @@
 <template>
-  <CipConfigProvide :file-upload="fileUpload">
+  <CipConfigProvide :file-upload="fileUpload" :form="{ errorMode: 'tooltip' }">
     <PlConfigProvide :theme="theme" :themes="themes">
       <router-view/>
     </PlConfigProvide>
