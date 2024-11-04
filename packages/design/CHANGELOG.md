@@ -1,5 +1,11 @@
 # @d-render/design
 
+## 2.0.12
+
+### Patch Changes
+
+- fix: 修复 d-render 依赖的版本号
+
 ## 2.0.11
 
 ### Patch Changes

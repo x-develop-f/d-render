@@ -1,6 +1,6 @@
 {
   "name": "@d-render/design",
-  "version": "2.0.11",
+  "version": "2.0.12",
   "description": "d-render中cip-form-render、cip-table-render渲染器schema的设计器",
   "sideEffects": [
     "dist/*"
@@ -18,17 +18,17 @@
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",
     "@xdp/button": "^1.2.1",
-    "element-plus": "2.2.22",
+    "element-plus": "^2.6.3",
     "vuedraggable": "^4.1.0"
   },
   "peerDependencies": {
     "@d-render/shared": "workspace:>=2.0.1",
     "@element-plus/icons-vue": "^2.1.0",
     "@xdp/button": "^1.1.2",
-    "d-render": "workspace:3.0.1",
-    "element-plus": "2.2.22",
+    "d-render": "workspace:>=3.0.1",
+    "element-plus": "^2.6.0",
     "uuid": "^8.3.x",
-    "vue": "^3.4.34",
+    "vue": "^3.3.2",
     "vuedraggable": "^4.1.0"
   },
   "keywords": [],
