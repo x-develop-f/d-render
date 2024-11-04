@@ -162,5 +162,6 @@ export class UpdateModelQueue {
     }
     this.isCollect = false
     this.updateModel(model)
+    this.init() // 清空原来的数据
   }
 }

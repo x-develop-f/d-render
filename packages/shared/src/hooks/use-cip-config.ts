@@ -9,6 +9,7 @@ interface CipConfig {
   layout: IAnyObject
   number: IAnyObject
   table: IAnyObject
+  form: { errorMode?: 'default' | 'tooltip'}
   main: IAnyObject
 }
 
@@ -19,6 +20,7 @@ export const useCipConfig = () => {
     layout: {},
     number: {},
     table: {},
+    form: {},
     main: {}
   })
   return cipConfig
@@ -26,6 +28,7 @@ export const useCipConfig = () => {
 
 export const useCipPageConfig = () => {
   const cipPageConfig = inject('cip-page-config', {
+    form: {},
     table: {},
     searchForm: {}
   })
