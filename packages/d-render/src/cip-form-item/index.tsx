@@ -54,7 +54,8 @@ const formItemProps = {
   onSearch: Function, // 供CipSearchForm使用
   isDesign: Boolean, // 是否设计模式
   drawType: String, // 需要开启设计模式后优先级高于config.type 一般仅用于拖拽设计时使用， 平时无效果
-  dataBus: Function
+  dataBus: Function,
+  changeCount: Number // 对象变化次数
 } as const
 export type FormItemProps = ExtractPropTypes<typeof formItemProps>
 export default defineComponent({
@@ -225,7 +226,7 @@ export default defineComponent({
         otherValue: otherValue.value,
         values: values.value,
         // model: model.value, // 即将废弃
-        changeCount: changeCount.value,
+        changeCount: isEmpty(props.changeCount) ? changeCount.value : props.changeCount,
         config: formItemConfig.value,
         usingRules: usingRules.value,
         rules: rules.value,

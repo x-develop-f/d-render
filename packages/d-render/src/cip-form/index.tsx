@@ -1,4 +1,4 @@
-import { h, ref, toRefs, computed, defineComponent, PropType, Ref, Slot, SlotsType } from 'vue'
+import { h, ref, toRefs, computed, defineComponent, PropType, Ref, Slot, SlotsType, watch } from 'vue'
 import { ElForm, ElMessage } from 'element-plus'
 import {
   toUpperFirstCase,
@@ -26,6 +26,7 @@ interface IInputProps {
   grid: number | true
   formLabelPosition: 'top' | 'left' | 'right'
   labelPosition: 'top' | 'left' | 'right'
+  changeCount: number
   'onUpdate:model': (val: IAnyObject) => void
   onKeyup?: (e: KeyboardEvent) => void
   customSlots?: Slot
@@ -134,6 +135,7 @@ export default defineComponent({
         grid: grid.value,
         formLabelPosition: labelPositionBridge.value,
         labelPosition: labelPositionBridge.value,
+        changeCount: changeCount.value, // 对象变化次数
         'onUpdate:model': (val: IAnyObject) => {
           if (componentKey === generateComponentKey(id || key)) {
             updateModel(val)
@@ -256,6 +258,11 @@ export default defineComponent({
     const clearValidate = () => {
       return cipFormRef.value?.clearValidate()
     }
+    const changeCount = ref(0) // model 整个对象变化的次数
+    watch(()=> props.model, ()=> {
+      changeCount.value++
+    }, { immediate: true })
+
 
     context.expose({
       validateUpload,
