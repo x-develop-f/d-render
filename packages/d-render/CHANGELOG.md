@@ -1,5 +1,11 @@
 # d-render
 
+## 3.0.4
+
+### Patch Changes
+
+- feat(d-render): [dr-form]允许 form 直接下发 changeCount
+
 ## 3.0.3
 
 ### Patch Changes
