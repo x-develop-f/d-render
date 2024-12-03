@@ -16,17 +16,20 @@ export default defineComponent({
     updateData: {
       type: Function as PropType<(val: IAnyObject, index: number)=>void>,
       required: true
-    }
+    },
+    rowEdit: Boolean
   },
   setup (props) {
     const computedConfig = computed(() => {
       const config = { ...props.config }
       config.width = '100%'
       config.hideLabel = true
-      if (config.writable === true) {
+      const writable = props.rowEdit && props.config.writable
+      if (writable) {
         config.ruleKey = `${props.tableRuleKey}.${props.propertyKey}.${props.columnKey}`
       }
-      if (!config.writable) {
+      if (!writable) {
+        config.writable = false
         config.readable = true
         if (!config.dynamic) {
           config.dependOn = []
@@ -50,6 +53,6 @@ export default defineComponent({
       }
     })
 
-    return () => <CipFormItem {...fromItemProps.value}/>
+    return () => <CipFormItem style={'height: 30px;'} {...fromItemProps.value}/>
   }
 })

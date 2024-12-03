@@ -42,7 +42,7 @@ export default defineComponent({
   name: 'CipTable',
   inheritAttrs: false,
   props: tableProps,
-  emits: ['sort', 'update:data', 'update:selectColumns', 'mainFieldClick', 'update:selectRadio'],
+  emits: ['sort', 'update:data', 'update:selectColumns', 'mainFieldClick', 'update:selectRadio', 'row-click'],
   setup (props, context) {
     const cipConfig = useCipConfig()
     const cipPageConfig = useCipPageConfig()
@@ -224,6 +224,7 @@ export default defineComponent({
               columnKey: key,
               tableDependOnValues: props.dependOnValues,
               tableData: props.data,
+              rowEdit: props.editType === 'row' ? editRowIdx.value === $index : true,
               updateData
             }
             // $render的优先级高于普通的type
@@ -241,6 +242,22 @@ export default defineComponent({
           }
         }
       })
+    }
+
+    const editRowIdx = ref(-1)
+    const handlerOutClick = () => {
+      editRowIdx.value = -1
+      document.removeEventListener('click', handlerOutClick)
+    }
+    const onRowClick = (row: any, column: any, event: Event) => {
+      if (event) {
+        event.stopPropagation()
+      }
+      document.addEventListener('click', handlerOutClick)
+      const idx = props.data.findIndex(v => v === row)
+      editRowIdx.value = idx
+      console.log('column', column)
+      context.emit('row-click', row, column, event)
     }
     // 渲染table的所有数据列 注意此处为Columns
     const renderTableColumns = (columns: Array<ITableColumnConfig> = []) => {
@@ -366,6 +383,7 @@ export default defineComponent({
       defaultExpandAll={props.defaultExpendAll}
       onSort-change={onSortChange}
       onSelection-change={onSelectionChange}
+      onRow-click={onRowClick}
     >
       {{
         default: () => TableColumns(),
