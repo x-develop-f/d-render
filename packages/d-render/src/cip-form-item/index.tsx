@@ -55,6 +55,7 @@ const formItemProps = {
   isDesign: Boolean, // 是否设计模式
   drawType: String, // 需要开启设计模式后优先级高于config.type 一般仅用于拖拽设计时使用， 平时无效果
   dataBus: Function,
+  errorMode: String as PropType<'default' | 'tooltip'>,
   changeCount: Number // 对象变化次数
 } as const
 export type FormItemProps = ExtractPropTypes<typeof formItemProps>
@@ -158,7 +159,7 @@ export default defineComponent({
         result.push(descriptionComp)
       }
       if (formItemConfig.value.no) {
-        result.unshift(formItemConfig.value.no)
+        result.unshift(formItemConfig.value.no as string)
       }
       // 仅在正在使用rules的input中且required为true时展示必填标记
       if (usingRules.value && formItemConfig.value.required) {
@@ -208,6 +209,21 @@ export default defineComponent({
         ? props.drawType || formItemConfig.value.type || 'default'
         : formItemConfig.value.type || 'default'
     })
+
+    const errorModeBridge = computed(() => {
+      return getUsingConfig(props.errorMode, getFieldValue(cipConfig, 'form.errorMode'), 'default')
+    })
+
+    const formItem$ = ref<InstanceType<typeof ElFormItem>>()
+
+    const renderItemInputWrapper = () => {
+      return <ElTooltip placement={'top'} disabled={formItem$.value?.validateState !== 'error'} content={formItem$.value?.validateMessage}>
+        {/* 必须要套一个，部分组件非单根节点会导致ElTooltip 无法打开 */}
+        <div style={{ width: '100%' }}>
+          {renderItemInput()}
+        </div>
+      </ElTooltip>
+    }
 
     const renderItemInput = () => {
       if (props.customSlots) {
@@ -290,15 +306,17 @@ export default defineComponent({
             'content--end': formItemConfig.value.contentEnd
           }
         ],
+        ref: formItem$,
         style: { marginBottom: formItemConfig.value.itemMarginBottom },
         prop: formItemConfig.value.ruleKey || props.fieldKey, // 子表单内的输入框会生成一个ruleKey
         rules: rules.value,
         labelWidth: getLabelWidth(formItemConfig.value),
-        inlineMessage: inlineErrorMessage.value
+        inlineMessage: inlineErrorMessage.value,
+        showMessage: errorModeBridge.value !== 'tooltip' // ? false : formItemConfig.value.showMessage
       }, {
         label: formItemLabel,
         error: errorMessageNode,
-        default: renderItemInput
+        default: renderItemInputWrapper
       })
     }
     const cipFormStyle = computed(() => {
@@ -324,6 +342,7 @@ export default defineComponent({
             'ep-form-item__wrapper', // 支持namespace ep
             `cip-form-item--${equipment.value}`,
             `dr-item-${itemType.value}`,
+            `cip-form-item__error--${errorModeBridge.value}`,
             {
               'cip-form-item--label-position-top': isLabelPositionTop.value,
               'cip-form-item--hidden': !childStatus.value || formItemConfig.value.hideItem,

@@ -36,16 +36,16 @@
   "author": "xmf",
   "license": "MIT",
   "peerDependencies": {
-    "element-plus": "^2.6.0",
+    "element-plus": "2.2.22",
     "dayjs": "^1.11.9",
     "lodash-es": "4.17.x",
     "uuid": "8.3.x",
-    "vue": "^3.2.47"
+    "vue": "^3.4.34"
   },
   "devDependencies": {
     "@types/uuid": "8.3.x",
     "@types/lodash-es": "^4.17.9",
-    "element-plus": "^2.6.0",
+    "element-plus": "2.2.22",
     "dayjs": "^1.11.9",
     "lodash-es": "4.17.x",
     "uuid": "8.3.x",

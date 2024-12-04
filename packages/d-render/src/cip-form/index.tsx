@@ -1,4 +1,4 @@
-import { h, ref, toRefs, computed, defineComponent, PropType, Ref, Slot, SlotsType, watch } from 'vue'
+import { h, ref, toRefs, computed, defineComponent, PropType, Ref, Slot, SlotsType, watch, VNode } from 'vue'
 import { ElForm, ElMessage } from 'element-plus'
 import {
   toUpperFirstCase,
@@ -26,6 +26,7 @@ interface IInputProps {
   grid: number | true
   formLabelPosition: 'top' | 'left' | 'right'
   labelPosition: 'top' | 'left' | 'right'
+  errorMode?: 'default' | 'tooltip'
   changeCount: number
   'onUpdate:model': (val: IAnyObject) => void
   onKeyup?: (e: KeyboardEvent) => void
@@ -59,7 +60,8 @@ export default defineComponent({
     border: { type: Boolean, default: undefined }, // showOnly + border 将出现边框
     // 回车触发回调
     enterHandler: Function,
-    genNo: Function
+    errorMode: { type: String as PropType<'default' | 'tooltip'>, default: undefined },
+    genNo: Function as PropType<(v: IFormConfig, count: number)=> (VNode | string)>
   },
   emits: ['update:model', 'submit', 'cancel'],
   slots: Object as SlotsType<{
@@ -136,6 +138,7 @@ export default defineComponent({
         formLabelPosition: labelPositionBridge.value,
         labelPosition: labelPositionBridge.value,
         changeCount: changeCount.value, // 对象变化次数
+        errorMode: props.errorMode,
         'onUpdate:model': (val: IAnyObject) => {
           if (componentKey === generateComponentKey(id || key)) {
             updateModel(val)
@@ -183,6 +186,7 @@ export default defineComponent({
       if (context.slots[key]) {
         return context.slots[key]({ key, config })
       }
+      // 123
       const componentProps = getComponentProps(key, config, id)
       // 若存在字段key值+Input的插槽覆盖则配置ElFormItem内的Input
       if (context.slots[`${key}Input`]) {

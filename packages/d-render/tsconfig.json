@@ -13,6 +13,7 @@
     "declaration": true,
     "emitDeclarationOnly": true,
     "declarationDir": "./types",
+    "noImplicitAny": false,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "useDefineForClassFields": true,
