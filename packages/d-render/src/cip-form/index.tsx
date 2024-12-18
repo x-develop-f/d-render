@@ -263,10 +263,9 @@ export default defineComponent({
       return cipFormRef.value?.clearValidate()
     }
     const changeCount = ref(0) // model 整个对象变化的次数
-    watch(()=> props.model, ()=> {
+    watch(() => props.model, () => {
       changeCount.value++
     }, { immediate: true })
-
 
     context.expose({
       validateUpload,
@@ -295,6 +294,7 @@ export default defineComponent({
       labelWidth: labelPositionBridge.value === 'top' ? '100%' : props.labelWidth,
       labelSuffix: props.labelSuffix,
       scrollToError: formProps.value.scrollToError,
+      errorMode: props.errorMode,
       onSubmit: (ev:Event) => { ev.preventDefault() }
     }, { default: () => [getFormDefaultSlots(), context.slots.default?.()] })
   }
