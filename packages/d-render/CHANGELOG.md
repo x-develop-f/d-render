@@ -1,5 +1,11 @@
 # d-render
 
+## 3.0.5
+
+### Patch Changes
+
+- feat(d-render): [dr-form]新增`errorMode`用于控制表单验证项错误展示方式
+
 ## 3.0.4
 
 ### Patch Changes
