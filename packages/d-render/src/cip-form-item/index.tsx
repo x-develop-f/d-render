@@ -217,12 +217,16 @@ export default defineComponent({
     const formItem$ = ref<InstanceType<typeof ElFormItem>>()
 
     const renderItemInputWrapper = () => {
-      return <ElTooltip placement={'top'} disabled={formItem$.value?.validateState !== 'error'} content={formItem$.value?.validateMessage}>
-        {/* 必须要套一个，部分组件非单根节点会导致ElTooltip 无法打开 */}
-        <div style={{ width: '100%' }}>
-          {renderItemInput()}
-        </div>
-      </ElTooltip>
+      if (errorModeBridge.value === 'default') {
+        return renderItemInput()
+      } else {
+        return <ElTooltip placement={'top'} popperClass={'cip-form-error-tooltip'} disabled={formItem$.value?.validateState !== 'error'} content={formItem$.value?.validateMessage}>
+          {/* 必须要套一个，部分组件非单根节点会导致ElTooltip 无法打开 */}
+          <div style={{ width: '100%' }}>
+            {renderItemInput()}
+          </div>
+        </ElTooltip>
+      }
     }
 
     const renderItemInput = () => {
