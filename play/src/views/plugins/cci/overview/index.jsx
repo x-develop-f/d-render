@@ -14,7 +14,7 @@ export default {
             labelPosition={'top'}
             grid={24}
             v-model:model={model.value}
-            fieldList={[{ key: 'st', config: { type: 'staticInfo', staticInfo: 'writable status', span: 24 } }].concat(elFormFieldConfig)}
+            fieldList={[{ key: 'st', config: { type: 'staticInfo', staticInfo: 'writable status1', span: 24 } }].concat(elFormFieldConfig)}
           />
         </div>
         <div class={styles.item}>

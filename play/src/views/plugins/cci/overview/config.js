@@ -70,8 +70,25 @@ const base = defineFormFieldConfig({
   color: { type: 'color', label: 'color picker', required: true },
   date: { type: 'date', label: 'date picker', required: true },
   datetime: { type: 'date', inputType: 'datetime', label: 'datetime picker', required: true },
-  input: { type: 'input', label: 'input', required: true },
-  number: { type: 'number', label: 'input number', required: true },
+  input: {
+    type: 'input',
+    label: 'input',
+    dependOn: ['number'],
+    changeConfig: (config, { number }) => {
+      console.log('number', number)
+      config.required = Boolean(number)
+      return config
+    }
+  },
+  number: {
+    type: 'number',
+    label: 'input number',
+    dependOn: ['input'],
+    changeConfig: (config, { input }) => {
+      config.required = Boolean(input)
+      return config
+    }
+  },
   radio: {
     type: 'radio',
     label: 'radio',
