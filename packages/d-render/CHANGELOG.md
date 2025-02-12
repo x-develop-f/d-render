@@ -1,5 +1,12 @@
 # d-render
 
+## 3.0.6
+
+### Patch Changes
+
+- fix(d-render): [cip-form]修复表单项 rules 变化后，不会清除严重的问题
+- fix(d-render): [cip-form]修复 errorModel 为 default 模式下依然会出现 tooltip 的问题
+
 ## 3.0.5
 
 ### Patch Changes
