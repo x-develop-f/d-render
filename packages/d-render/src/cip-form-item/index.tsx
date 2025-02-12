@@ -1,4 +1,4 @@
-import { h, toRef, computed, ref, unref, onErrorCaptured, defineComponent } from 'vue'
+import { h, toRef, computed, ref, unref, onErrorCaptured, defineComponent, watch, nextTick } from 'vue'
 import type { PropType, ExtractPropTypes, Ref, ComputedRef, VNode } from 'vue'
 import { ElFormItem, ElTooltip, ElIcon } from 'element-plus'
 import { InfoFilled, WarningFilled } from '@element-plus/icons-vue'
@@ -136,6 +136,13 @@ export default defineComponent({
     const readonly = toRef(props, 'readonly')
     // rules
     const { usingRules, rules } = useRules(formItemConfig, readonly, status, otherValue, dependOnValues, outDependOnValues)
+    // 使用rules的长度来判断是否一致
+    watch(() => rules.value.length, (val, old) => {
+      if (val !== old) {
+        formItem$.value?.clearValidate()
+        // console.log('rules change', props.fieldKey)
+      }
+    })
     // Input组件是否展示标记(需要控制form-item内置的margin-bottom)
     const childStatus:Ref<boolean> = ref(true)
     // FormItem label
